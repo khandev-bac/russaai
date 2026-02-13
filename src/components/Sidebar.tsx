@@ -22,7 +22,8 @@ import {
     Folder as FolderIcon,
     ChevronRight,
     ChevronDown,
-    ArrowRightLeft
+    ArrowRightLeft,
+    LogOut
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -32,7 +33,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
-    const { user, refreshUser } = useAuth();
+    const { user, refreshUser, logout } = useAuth();
     const {
         conversations,
         folders,
@@ -270,7 +271,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
                         className="w-5 h-5 text-white cursor-pointer hover:opacity-100 transition-opacity"
                         onClick={() => setIsOpen(false)}
                     />
-                    <LayoutPanelLeft className="w-5 h-5 text-white cursor-pointer hover:opacity-100 transition-opacity" />
+                    <LayoutPanelLeft
+                        className="w-5 h-5 text-white cursor-pointer hover:opacity-100 transition-opacity"
+                        onClick={() => setIsOpen(!isOpen)}
+                    />
                 </div>
             </div>
 
@@ -470,6 +474,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
                         <p className="text-[10px] text-primary/60 font-black uppercase tracking-widest mt-0.5">{user?.plan || 'Free Plan'}</p>
                     </div>
                 </div>
+
+                {/* Logout Button */}
+                <button
+                    onClick={async () => {
+                        await logout();
+                        router.push('/');
+                    }}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/30 text-white/70 hover:text-red-400 transition-all text-sm font-semibold group"
+                >
+                    <LogOut className="w-4 h-4 group-hover:rotate-12 transition-transform" />
+                    <span>Logout</span>
+                </button>
             </div>
 
             {/* Custom Delete Confirmation Modal */}

@@ -2,12 +2,9 @@
 
 import React from 'react';
 import ChatWindow from '@/components/ChatWindow';
+import { useChatLayout } from '@/context/ChatLayoutContext';
 
-interface ChatPageProps {
-    sidebarOpen: boolean;
-    setSidebarOpen: (open: boolean) => void;
-}
-
-export default function ChatPage({ sidebarOpen, setSidebarOpen }: ChatPageProps) {
+export default function ChatPage() {
+    const { sidebarOpen, setSidebarOpen } = useChatLayout();
     return <ChatWindow sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />;
 }

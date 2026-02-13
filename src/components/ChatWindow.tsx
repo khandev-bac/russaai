@@ -187,10 +187,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ sidebarOpen, setSidebarOpen }) 
 
             <div className="flex items-center justify-between mt-4 px-2">
                 <div className="flex items-center gap-4">
-                    <button type="button" className="text-white/20 hover:text-white transition-colors">
-                        <Paperclip className="w-5 h-5" />
-                    </button>
-
                     <div className="relative">
                         <button
                             type="button"
@@ -223,9 +219,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ sidebarOpen, setSidebarOpen }) 
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <button type="button" className="text-white/20 hover:text-white transition-colors">
-                        <Mic className="w-5 h-5" />
-                    </button>
                     {!isCentered && input.trim() && (
                         <button
                             type="submit"
