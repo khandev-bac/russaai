@@ -17,19 +17,27 @@ export async function POST(req: Request) {
         const body = await req.json();
         const { email, password } = loginSchema.parse(body);
 
+        console.log('Login attempt for:', email);
+
         const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
+
+        console.log('User found:', !!user);
 
         if (!user || !user.passwordHash) {
             return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });
         }
 
         const validPassword = await bcrypt.compare(password, user.passwordHash);
+        console.log('Password valid:', validPassword);
+
         if (!validPassword) {
             return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });
         }
 
+        console.log('Generating tokens...');
         const accessToken = generateAccessToken(user.id);
         const refreshToken = generateRefreshToken(user.id);
+        console.log('Tokens generated:', !!accessToken, !!refreshToken);
 
         const response = NextResponse.json({
             accessToken,

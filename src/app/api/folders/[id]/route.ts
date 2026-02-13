@@ -9,7 +9,7 @@ const folderSchema = z.object({
     name: z.string().min(1).max(50),
 });
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
     const user = await getAuthenticatedUser();
     if (!user) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
