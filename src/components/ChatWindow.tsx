@@ -3,9 +3,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import api from '@/lib/axios';
-import { Send, Loader2, Paperclip, Mic, ChevronDown, Search, LayoutPanelLeft } from 'lucide-react';
+import { Send, Loader2, Paperclip, Mic, ChevronDown, LayoutPanelLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
+import { useChatLayout } from '@/context/ChatLayoutContext';
 import { useChat } from '@/context/ChatContext';
 import Image from 'next/image';
 import PaywallModal from './PaywallModal';
@@ -18,15 +19,15 @@ interface Message {
 }
 
 interface ChatWindowProps {
-    sidebarOpen: boolean;
-    setSidebarOpen: (open: boolean) => void;
 }
 
-const ChatWindow: React.FC<ChatWindowProps> = ({ sidebarOpen, setSidebarOpen }) => {
+const ChatWindow: React.FC<ChatWindowProps> = () => {
     const params = useParams();
-    const id = params?.id as string | undefined;
+    const rawId = params?.id;
+    const id = Array.isArray(rawId) ? rawId[0] : rawId;
     const router = useRouter();
     const { user, refreshUser } = useAuth();
+    const { sidebarOpen, setSidebarOpen } = useChatLayout();
     const { refreshConversations } = useChat();
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
@@ -251,9 +252,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ sidebarOpen, setSidebarOpen }) 
                 <div className="w-20" /> {/* Spacer */}
 
                 <div className="flex items-center gap-4 pointer-events-auto">
-                    <button className="text-white/40 hover:text-white transition-colors">
-                        <Search className="w-5 h-5" />
-                    </button>
                 </div>
             </div>
 

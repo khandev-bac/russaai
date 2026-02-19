@@ -9,8 +9,6 @@ import { useChat } from '@/context/ChatContext';
 import api from '@/lib/axios';
 import {
     Plus,
-    Search,
-    Library,
     X,
     LayoutPanelLeft,
     HandMetal,
@@ -286,14 +284,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
                 >
                     <Plus className="w-4 h-4" />
                     New chat
-                </button>
-                <button className="w-full flex items-center gap-3 px-3 py-2 text-white/80 hover:text-white transition-colors text-sm font-medium rounded-lg hover:bg-white/5">
-                    <Search className="w-4 h-4" />
-                    Search chats
-                </button>
-                <button className="w-full flex items-center gap-3 px-3 py-2 text-white/80 hover:text-white transition-colors text-sm font-medium rounded-lg hover:bg-white/5">
-                    <Library className="w-4 h-4" />
-                    Library
                 </button>
             </div>
 
