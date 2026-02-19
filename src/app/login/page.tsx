@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { signIn as googleSignIn } from 'next-auth/react';
 import { Mail, Lock, LogIn, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -101,26 +100,11 @@ export default function LoginPage() {
                     </button>
                 </form>
 
-                <div className="relative my-8">
-                    <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/5"></div></div>
-                    <div className="relative flex justify-center text-xs uppercase"><span className="bg-background px-2 text-muted-foreground font-medium">Or continue with</span></div>
-                </div>
-
-                <div className="space-y-4">
-                    <button
-                        onClick={() => googleSignIn('google', { callbackUrl: '/chat' })}
-                        className="w-full inline-flex items-center justify-center gap-3 bg-white text-black font-bold py-4 rounded-2xl hover:bg-white/90 transition-all border border-gray-200"
-                    >
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-5 h-5" />
-                        Sign in with Google
-                    </button>
-
-                    <div className="text-center mt-6">
-                        <span className="text-muted-foreground text-sm">Don't have an account? </span>
-                        <Link href="/signup" className="text-primary hover:underline text-sm font-semibold ml-1">
-                            Create an account
-                        </Link>
-                    </div>
+                <div className="text-center mt-6">
+                    <span className="text-muted-foreground text-sm">Don't have an account? </span>
+                    <Link href="/signup" className="text-primary hover:underline text-sm font-semibold ml-1">
+                        Create an account
+                    </Link>
                 </div>
             </motion.div>
         </div>

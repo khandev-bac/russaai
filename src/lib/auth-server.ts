@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { cookies, headers } from "next/headers";
 import { verifyAccessToken } from "@/lib/jwt";
 import { db } from "@/db";
@@ -28,21 +27,6 @@ export async function getAuthenticatedUser() {
         }
     } catch (err) {
         // Silent fail for JWT
-    }
-
-    // 2. Check NextAuth session (Google)
-    try {
-        const session = await auth();
-        if (session?.user?.email) {
-            const user = await db.query.users.findFirst({
-                where: (users, { eq }) => eq(users.email, session.user!.email!),
-            });
-            if (user) {
-                return user;
-            }
-        }
-    } catch (err) {
-        // Silent fail for NextAuth
     }
 
     return null;

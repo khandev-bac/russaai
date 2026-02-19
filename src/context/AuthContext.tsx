@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import api from '@/lib/axios';
-import { useSession, signOut as googleSignOut } from 'next-auth/react';
 
 interface User {
     id: number;
@@ -26,7 +25,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
-    const { data: session, status } = useSession();
 
     const refreshUser = useCallback(async () => {
         try {
@@ -40,19 +38,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, []);
 
     useEffect(() => {
-        // If Google session exists, we trust it (or we could sync with /auth/me)
-        if (status === 'authenticated' && session?.user) {
-            // Mapping Google session to our internal User type if needed
-            // For now, let's just attempt to get internal data from /auth/me
-            // which handles the sync via the signIn callback in auth.ts
-            refreshUser();
-        } else if (status === 'unauthenticated') {
-            // Check for traditional session
-            refreshUser();
-        } else if (status === 'loading') {
-            setLoading(true);
-        }
-    }, [status, session, refreshUser]);
+        refreshUser();
+    }, [refreshUser]);
 
     const login = async (credentials: any) => {
         const res = await api.post('/auth/login', credentials);
@@ -65,9 +52,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const logout = async () => {
-        if (session) {
-            await googleSignOut({ redirect: false });
-        }
         await api.post('/auth/logout');
         setUser(null);
     };
